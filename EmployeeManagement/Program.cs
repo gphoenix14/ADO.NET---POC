@@ -9,7 +9,7 @@ namespace EmployeeManagement
         public static void Main(string[] args)
         {
 
-            EmployeeDataAccessLayer employeeDAL = new EmployeeDataAccessLayer();
+            EmployeeDataAccessLayerWithDAO employeeDAL = new EmployeeDataAccessLayerWithDAO();
             while (true)
             {
                 Console.WriteLine("Seleziona un'opzione:");
@@ -48,7 +48,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void CreaUtente(EmployeeDataAccessLayer employeeDAL)
+        static void CreaUtente(EmployeeDataAccessLayerWithDAO employeeDAL)
         {
             Employee employee = new Employee();
 
@@ -65,7 +65,7 @@ namespace EmployeeManagement
             Console.WriteLine("Utente creato con successo.");
         }
 
-        static void VisualizzaUtente(EmployeeDataAccessLayer employeeDAL)
+        static void VisualizzaUtente(EmployeeDataAccessLayerWithDAO employeeDAL)
         {
             Console.Write("Inserisci l'ID dell'utente: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -86,7 +86,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void AggiornaUtente(EmployeeDataAccessLayer employeeDAL)
+        static void AggiornaUtente(EmployeeDataAccessLayerWithDAO employeeDAL)
         {
             Console.Write("Inserisci l'ID dell'utente: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -120,7 +120,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void ListaTuttiGliUtenti(EmployeeDataAccessLayer employeeDAL)
+        static void ListaTuttiGliUtenti(EmployeeDataAccessLayerWithDAO employeeDAL)
         {
             var employees = employeeDAL.GetAllEmployees();
             foreach (var employee in employees)
@@ -134,7 +134,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void EliminaUtente(EmployeeDataAccessLayer employeeDAL)
+        static void EliminaUtente(EmployeeDataAccessLayerWithDAO employeeDAL)
         {
             Console.Write("Inserisci l'ID dell'utente da eliminare: ");
             int id = Convert.ToInt32(Console.ReadLine());

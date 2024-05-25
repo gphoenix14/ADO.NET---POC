@@ -6,7 +6,7 @@ using MySql.Data.MySqlClient;
 
 namespace EmployeeManagement.Models
 {
-    public class EmployeeDataAccessLayer
+    public class EmployeeDataAccessLayerWithDAO
     {
         string connectionString = "Server=localhost;Database=employee;User Id=employee;Password=employee;";
 
