@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 
-//USING ADO.NET
-
 namespace EmployeeManagement.Models
 {
     public class EmployeeDataAccessLayerWithDAO
@@ -15,100 +13,71 @@ namespace EmployeeManagement.Models
         {
             List<Employee> lstemployee = new List<Employee>();
 
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                MySqlCommand cmd = new MySqlCommand("SELECT * FROM Employee", con); // Query SQL diretta
+                string query = "SELECT * FROM Employee";
+                MySqlCommand command = new MySqlCommand(query, connection);
 
-                con.Open();
-                MySqlDataReader rdr = cmd.ExecuteReader();
+                connection.Open();
+                MySqlDataReader reader = command.ExecuteReader();
 
-                while (rdr.Read())
+                while (reader.Read())
                 {
-                    Employee employee = new Employee();
-
-                    employee.ID = Convert.ToInt32(rdr["ID"]);
-                    employee.Name = rdr["Name"].ToString();
-                    employee.Gender = rdr["Gender"].ToString();
-                    employee.Department = rdr["Department"].ToString();
-                    employee.City = rdr["City"].ToString();
+                    Employee employee = new Employee
+                    {
+                        ID = Convert.ToInt32(reader["ID"]),
+                        Name = reader["Name"].ToString(),
+                        Gender = reader["Gender"].ToString(),
+                        Department = reader["Department"].ToString(),
+                        City = reader["City"].ToString()
+                    };
 
                     lstemployee.Add(employee);
                 }
-                con.Close();
+
+                reader.Close();
+                connection.Close();
             }
+
             return lstemployee;
         }
 
         // To Add new employee record    
         public void AddEmployee(Employee employee)
         {
-            try
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection con = new MySqlConnection(connectionString))
-                {
-                    string query = "INSERT INTO Employee (Name, Gender, Department, City) VALUES (@Name, @Gender, @Department, @City)";
-                    MySqlCommand cmd = new MySqlCommand(query, con); // Query SQL diretta
+                string query = "INSERT INTO Employee (Name, Gender, Department, City) VALUES (@Name, @Gender, @Department, @City)";
+                MySqlCommand command = new MySqlCommand(query, connection);
 
-                    cmd.Parameters.AddWithValue("@Name", employee.Name);
-                    cmd.Parameters.AddWithValue("@Gender", employee.Gender);
-                    cmd.Parameters.AddWithValue("@Department", employee.Department);
-                    cmd.Parameters.AddWithValue("@City", employee.City);
+                command.Parameters.AddWithValue("@Name", employee.Name);
+                command.Parameters.AddWithValue("@Gender", employee.Gender);
+                command.Parameters.AddWithValue("@Department", employee.Department);
+                command.Parameters.AddWithValue("@City", employee.City);
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-            catch (MySqlException sqlEx)
-            {
-                Console.WriteLine("Errore SQL: " + sqlEx.Message);
-                Console.WriteLine("Stato SQL: " + sqlEx.ErrorCode);
-                Console.WriteLine("Numero Errore: " + sqlEx.Number);
-                Console.WriteLine("Stack Trace: " + sqlEx.StackTrace); // Aggiungi lo stack trace
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Errore Generale: " + ex.Message);
-                Console.WriteLine("Stack Trace: " + ex.StackTrace); // Aggiungi lo stack trace
-                throw;
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
 
         // To Update the records of a particular employee  
         public void UpdateEmployee(Employee employee)
         {
-            try
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection con = new MySqlConnection(connectionString))
-                {
-                    string query = "UPDATE Employee SET Name = @Name, Gender = @Gender, Department = @Department, City = @City WHERE ID = @EmpId";
-                    MySqlCommand cmd = new MySqlCommand(query, con); // Query SQL diretta
+                string query = "UPDATE Employee SET Name = @Name, Gender = @Gender, Department = @Department, City = @City WHERE ID = @EmpId";
+                MySqlCommand command = new MySqlCommand(query, connection);
 
-                    cmd.Parameters.AddWithValue("@EmpId", employee.ID);
-                    cmd.Parameters.AddWithValue("@Name", employee.Name);
-                    cmd.Parameters.AddWithValue("@Gender", employee.Gender);
-                    cmd.Parameters.AddWithValue("@Department", employee.Department);
-                    cmd.Parameters.AddWithValue("@City", employee.City);
+                command.Parameters.AddWithValue("@EmpId", employee.ID);
+                command.Parameters.AddWithValue("@Name", employee.Name);
+                command.Parameters.AddWithValue("@Gender", employee.Gender);
+                command.Parameters.AddWithValue("@Department", employee.Department);
+                command.Parameters.AddWithValue("@City", employee.City);
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-            catch (MySqlException sqlEx)
-            {
-                Console.WriteLine("Errore SQL: " + sqlEx.Message);
-                Console.WriteLine("Stato SQL: " + sqlEx.ErrorCode);
-                Console.WriteLine("Numero Errore: " + sqlEx.Number);
-                Console.WriteLine("Stack Trace: " + sqlEx.StackTrace); // Aggiungi lo stack trace
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Errore Generale: " + ex.Message);
-                Console.WriteLine("Stack Trace: " + ex.StackTrace); // Aggiungi lo stack trace
-                throw;
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
 
@@ -117,60 +86,46 @@ namespace EmployeeManagement.Models
         {
             Employee employee = new Employee();
 
-            using (MySqlConnection con = new MySqlConnection(connectionString))
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                string sqlQuery = "SELECT * FROM Employee WHERE ID = @EmpId";
-                MySqlCommand cmd = new MySqlCommand(sqlQuery, con); // Query SQL diretta
+                string query = "SELECT * FROM Employee WHERE ID = @EmpId";
+                MySqlCommand command = new MySqlCommand(query, connection);
 
-                cmd.Parameters.AddWithValue("@EmpId", id);
+                command.Parameters.AddWithValue("@EmpId", id);
 
-                con.Open();
-                MySqlDataReader rdr = cmd.ExecuteReader();
+                connection.Open();
+                MySqlDataReader reader = command.ExecuteReader();
 
-                while (rdr.Read())
+                while (reader.Read())
                 {
-                    employee.ID = Convert.ToInt32(rdr["ID"]);
-                    employee.Name = rdr["Name"].ToString();
-                    employee.Gender = rdr["Gender"].ToString();
-                    employee.Department = rdr["Department"].ToString();
-                    employee.City = rdr["City"].ToString();
+                    employee.ID = Convert.ToInt32(reader["ID"]);
+                    employee.Name = reader["Name"].ToString();
+                    employee.Gender = reader["Gender"].ToString();
+                    employee.Department = reader["Department"].ToString();
+                    employee.City = reader["City"].ToString();
                 }
+
+                reader.Close();
+                connection.Close();
             }
+
             return employee;
         }
 
         // To Delete the record on a particular employee  
         public void DeleteEmployee(int? id)
         {
-            try
+            using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
-                using (MySqlConnection con = new MySqlConnection(connectionString))
-                {
-                    string query = "DELETE FROM Employee WHERE ID = @EmpId";
-                    MySqlCommand cmd = new MySqlCommand(query, con); // Query SQL diretta
+                string query = "DELETE FROM Employee WHERE ID = @EmpId";
+                MySqlCommand command = new MySqlCommand(query, connection);
 
-                    cmd.Parameters.AddWithValue("@EmpId", id);
+                command.Parameters.AddWithValue("@EmpId", id);
 
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                }
-            }
-            catch (MySqlException sqlEx)
-            {
-                Console.WriteLine("Errore SQL: " + sqlEx.Message);
-                Console.WriteLine("Stato SQL: " + sqlEx.ErrorCode);
-                Console.WriteLine("Numero Errore: " + sqlEx.Number);
-                Console.WriteLine("Stack Trace: " + sqlEx.StackTrace); // Aggiungi lo stack trace
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Errore Generale: " + ex.Message);
-                Console.WriteLine("Stack Trace: " + ex.StackTrace); // Aggiungi lo stack trace
-                throw;
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
             }
         }
     }
-
 }
