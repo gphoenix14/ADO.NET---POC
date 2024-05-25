@@ -1,0 +1,7 @@
+CREATE TABLE Employee (
+    ID INT PRIMARY KEY IDENTITY(1,1), -- Auto-increment primary key
+    Name NVARCHAR(100) NOT NULL,      -- Assuming maximum length for string fields
+    Gender NVARCHAR(50) NOT NULL,
+    Department NVARCHAR(100) NOT NULL,
+    City NVARCHAR(100) NOT NULL
+);
