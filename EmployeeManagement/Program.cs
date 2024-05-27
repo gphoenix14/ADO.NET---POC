@@ -323,12 +323,7 @@ namespace EmployeeManagement
             employeeDAL_NHibernate.DeleteAllEmployees();
             stopwatch.Stop();
             Console.WriteLine("Tabella azzerata con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
-
-            stopwatch.Reset();
-            stopwatch.Start();
-            employeeDAL_EF.DeleteAllEmployees();
-            stopwatch.Stop();
-            Console.WriteLine("Tabella azzerata con successo usando Entity Framework in " + stopwatch.ElapsedMilliseconds + " ms.");
+    
         }
 
         static void StampaDatiUtente(Employee employee)
