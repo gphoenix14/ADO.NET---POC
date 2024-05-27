@@ -127,5 +127,17 @@ namespace EmployeeManagement.Models
                 connection.Close();
             }
         }
+        public void DeleteAllEmployees()
+{
+    using (MySqlConnection connection = new MySqlConnection(connectionString))
+    {
+        string query = "DELETE FROM Employee";
+        MySqlCommand command = new MySqlCommand(query, connection);
+
+        connection.Open();
+        command.ExecuteNonQuery();
+        connection.Close();
+    }
+}
     }
 }

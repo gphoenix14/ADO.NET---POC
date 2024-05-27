@@ -54,5 +54,14 @@ namespace EmployeeManagement.Models
                 db.Execute(query, new { ID = id });
             }
         }
+
+        public void DeleteAllEmployees()
+{
+    using (IDbConnection db = new MySqlConnection(connectionString))
+    {
+        string query = "DELETE FROM Employee";
+        db.Execute(query);
+    }
+}
     }
 }

@@ -63,5 +63,18 @@ namespace EmployeeManagement.Models
                 }
             }
         }
+
+        public void DeleteAllEmployees()
+{
+    using (ISession session = NHibernateHelper.OpenSession())
+    {
+        using (ITransaction transaction = session.BeginTransaction())
+        {
+            session.CreateQuery("DELETE FROM Employee").ExecuteUpdate();
+            transaction.Commit();
+        }
+    }
+}
+
     }
 }

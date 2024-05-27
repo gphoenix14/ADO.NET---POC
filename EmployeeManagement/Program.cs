@@ -22,6 +22,7 @@ namespace EmployeeManagement
                 Console.WriteLine("4. Lista tutti gli utenti");
                 Console.WriteLine("5. Elimina un utente (fornendo il suo ID)");
                 Console.WriteLine("6. Esci");
+                Console.WriteLine("7. Azzera la tabella Employee");
 
                 int scelta = Convert.ToInt32(Console.ReadLine());
 
@@ -44,6 +45,9 @@ namespace EmployeeManagement
                         break;
                     case 6:
                         return;
+                    case 7:
+                        AzzeraTabellaEmployee(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
+                        break;
                     default:
                         Console.WriteLine("Scelta non valida. Riprova.");
                         break;
@@ -232,6 +236,28 @@ namespace EmployeeManagement
             employeeDAL_NHibernate.DeleteEmployee(id);
             stopwatch.Stop();
             Console.WriteLine("Utente eliminato con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
+        }
+
+        static void AzzeraTabellaEmployee(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            employeeDAL_ADO.DeleteAllEmployees();
+            stopwatch.Stop();
+            Console.WriteLine("Tabella azzerata con successo usando ADO.NET in " + stopwatch.ElapsedMilliseconds + " ms.");
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            employeeDAL_Dapper.DeleteAllEmployees();
+            stopwatch.Stop();
+            Console.WriteLine("Tabella azzerata con successo usando Dapper in " + stopwatch.ElapsedMilliseconds + " ms.");
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            employeeDAL_NHibernate.DeleteAllEmployees();
+            stopwatch.Stop();
+            Console.WriteLine("Tabella azzerata con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
         static void StampaDatiUtente(Employee employee)
