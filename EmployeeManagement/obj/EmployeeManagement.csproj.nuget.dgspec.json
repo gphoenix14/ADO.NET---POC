@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj": {}
+    "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET e Dapper\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj": {
+    "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET e Dapper\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj",
+        "projectUniqueName": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET e Dapper\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj",
         "projectName": "EmployeeManagement",
-        "projectPath": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj",
+        "projectPath": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET e Dapper\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\EmployeeManagement.csproj",
         "packagesPath": "C:\\Users\\giuse\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\obj\\",
+        "outputPath": "C:\\Users\\giuse\\Phoenix Networking Academy\\Data Management - Documents\\Corsi di Formazione\\17) Corso C#\\Esempio di codice ADO NET e Dapper\\ASPNetCore_ADO-master\\ASPNetCore_ADO-master\\EmployeeManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\giuse\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -58,6 +58,14 @@
             "MySql.Data": {
               "target": "Package",
               "version": "[8.4.0, )"
+            },
+            "NHibernate": {
+              "target": "Package",
+              "version": "[5.5.1, )"
+            },
+            "NHibernate.Mapping.Attributes": {
+              "target": "Package",
+              "version": "[5.1.0, )"
             }
           },
           "imports": [
@@ -79,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

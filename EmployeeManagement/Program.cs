@@ -11,6 +11,7 @@ namespace EmployeeManagement
         {
             EmployeeDataAccessLayerWithDAO employeeDAL_ADO = new EmployeeDataAccessLayerWithDAO();
             EmployeeDataAccessLayerWithDapper employeeDAL_Dapper = new EmployeeDataAccessLayerWithDapper();
+            EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate = new EmployeeDataAccessLayerWithNHibernate();
 
             while (true)
             {
@@ -27,19 +28,19 @@ namespace EmployeeManagement
                 switch (scelta)
                 {
                     case 1:
-                        CreaUtente(employeeDAL_ADO, employeeDAL_Dapper);
+                        CreaUtente(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
                         break;
                     case 2:
-                        VisualizzaUtente(employeeDAL_ADO, employeeDAL_Dapper);
+                        VisualizzaUtente(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
                         break;
                     case 3:
-                        AggiornaUtente(employeeDAL_ADO, employeeDAL_Dapper);
+                        AggiornaUtente(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
                         break;
                     case 4:
-                        ListaTuttiGliUtenti(employeeDAL_ADO, employeeDAL_Dapper);
+                        ListaTuttiGliUtenti(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
                         break;
                     case 5:
-                        EliminaUtente(employeeDAL_ADO, employeeDAL_Dapper);
+                        EliminaUtente(employeeDAL_ADO, employeeDAL_Dapper, employeeDAL_NHibernate);
                         break;
                     case 6:
                         return;
@@ -50,7 +51,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void CreaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper)
+        static void CreaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
         {
             Employee employee = new Employee();
 
@@ -75,9 +76,15 @@ namespace EmployeeManagement
             employeeDAL_Dapper.AddEmployee(employee);
             stopwatch.Stop();
             Console.WriteLine("Utente creato con successo usando Dapper in " + stopwatch.ElapsedMilliseconds + " ms.");
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            employeeDAL_NHibernate.AddEmployee(employee);
+            stopwatch.Stop();
+            Console.WriteLine("Utente creato con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
-        static void VisualizzaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper)
+        static void VisualizzaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
         {
             Console.Write("Inserisci l'ID dell'utente: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -96,17 +103,25 @@ namespace EmployeeManagement
             stopwatch.Stop();
             Console.WriteLine("Dati utente usando Dapper ottenuti in " + stopwatch.ElapsedMilliseconds + " ms.");
             StampaDatiUtente(employee_Dapper);
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            Employee employee_NHibernate = employeeDAL_NHibernate.GetEmployeeData(id);
+            stopwatch.Stop();
+            Console.WriteLine("Dati utente usando NHibernate ottenuti in " + stopwatch.ElapsedMilliseconds + " ms.");
+            StampaDatiUtente(employee_NHibernate);
         }
 
-        static void AggiornaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper)
+        static void AggiornaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
         {
             Console.Write("Inserisci l'ID dell'utente: ");
             int id = Convert.ToInt32(Console.ReadLine());
 
             Employee employee_ADO = employeeDAL_ADO.GetEmployeeData(id);
             Employee employee_Dapper = employeeDAL_Dapper.GetEmployeeData(id);
+            Employee employee_NHibernate = employeeDAL_NHibernate.GetEmployeeData(id);
 
-            if (employee_ADO != null && employee_Dapper != null)
+            if (employee_ADO != null && employee_Dapper != null && employee_NHibernate != null)
             {
                 Console.Write("Inserisci il nuovo nome (lascia vuoto per mantenere l'attuale): ");
                 string name = Console.ReadLine();
@@ -114,6 +129,7 @@ namespace EmployeeManagement
                 {
                     employee_ADO.Name = name;
                     employee_Dapper.Name = name;
+                    employee_NHibernate.Name = name;
                 }
 
                 Console.Write("Inserisci il nuovo genere (lascia vuoto per mantenere l'attuale): ");
@@ -122,6 +138,7 @@ namespace EmployeeManagement
                 {
                     employee_ADO.Gender = gender;
                     employee_Dapper.Gender = gender;
+                    employee_NHibernate.Gender = gender;
                 }
 
                 Console.Write("Inserisci il nuovo dipartimento (lascia vuoto per mantenere l'attuale): ");
@@ -130,6 +147,7 @@ namespace EmployeeManagement
                 {
                     employee_ADO.Department = department;
                     employee_Dapper.Department = department;
+                    employee_NHibernate.Department = department;
                 }
 
                 Console.Write("Inserisci la nuova città (lascia vuoto per mantenere l'attuale): ");
@@ -138,6 +156,7 @@ namespace EmployeeManagement
                 {
                     employee_ADO.City = city;
                     employee_Dapper.City = city;
+                    employee_NHibernate.City = city;
                 }
 
                 Stopwatch stopwatch = new Stopwatch();
@@ -152,6 +171,12 @@ namespace EmployeeManagement
                 employeeDAL_Dapper.UpdateEmployee(employee_Dapper);
                 stopwatch.Stop();
                 Console.WriteLine("Utente aggiornato con successo usando Dapper in " + stopwatch.ElapsedMilliseconds + " ms.");
+
+                stopwatch.Reset();
+                stopwatch.Start();
+                employeeDAL_NHibernate.UpdateEmployee(employee_NHibernate);
+                stopwatch.Stop();
+                Console.WriteLine("Utente aggiornato con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
             }
             else
             {
@@ -159,7 +184,7 @@ namespace EmployeeManagement
             }
         }
 
-        static void ListaTuttiGliUtenti(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper)
+        static void ListaTuttiGliUtenti(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
         {
             Stopwatch stopwatch = new Stopwatch();
 
@@ -175,9 +200,16 @@ namespace EmployeeManagement
             stopwatch.Stop();
             Console.WriteLine("Lista utenti usando Dapper ottenuta in " + stopwatch.ElapsedMilliseconds + " ms.");
             StampaListaUtenti(employees_Dapper);
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            var employees_NHibernate = employeeDAL_NHibernate.GetAllEmployees();
+            stopwatch.Stop();
+            Console.WriteLine("Lista utenti usando NHibernate ottenuta in " + stopwatch.ElapsedMilliseconds + " ms.");
+            StampaListaUtenti(employees_NHibernate);
         }
 
-        static void EliminaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper)
+        static void EliminaUtente(EmployeeDataAccessLayerWithDAO employeeDAL_ADO, EmployeeDataAccessLayerWithDapper employeeDAL_Dapper, EmployeeDataAccessLayerWithNHibernate employeeDAL_NHibernate)
         {
             Console.Write("Inserisci l'ID dell'utente da eliminare: ");
             int id = Convert.ToInt32(Console.ReadLine());
@@ -194,6 +226,12 @@ namespace EmployeeManagement
             employeeDAL_Dapper.DeleteEmployee(id);
             stopwatch.Stop();
             Console.WriteLine("Utente eliminato con successo usando Dapper in " + stopwatch.ElapsedMilliseconds + " ms.");
+
+            stopwatch.Reset();
+            stopwatch.Start();
+            employeeDAL_NHibernate.DeleteEmployee(id);
+            stopwatch.Stop();
+            Console.WriteLine("Utente eliminato con successo usando NHibernate in " + stopwatch.ElapsedMilliseconds + " ms.");
         }
 
         static void StampaDatiUtente(Employee employee)
